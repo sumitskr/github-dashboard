@@ -4,10 +4,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Working Activity</title>
+    <title>Login</title>
 </head>
-<body>
-    <h1>Hello MF</h1>
+<body style="margin: 50px; font-size: larger; ">
+    <h1>Hello MFs</h1>
+    <form> {% csrf_token%}
+        <h3>Enter username</h3>
+        <input name="username" type="text">
+        <h3>Enter password</h3>
+        <input name="password" type="password" >
+        <button type="submit]" >login</button>
+    </form>
     
 </body>
 </html>
