@@ -7,7 +7,8 @@
     <title>Register MF</title>
 </head>
 <body>
-    <form style="margin: 25px;">
+    <form action=/registration method="POST" style="margin: 25px;">
+        {% csrf_token %}
         {{ registration_form.as_p }}
         <button type="submit">Submit</button>
     </form>
