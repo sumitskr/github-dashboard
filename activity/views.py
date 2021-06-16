@@ -6,4 +6,6 @@ def index(request):
     return HttpResponse("hello")
 
 def registration(request):
-    return render(request,'registration.html')
+    registration_form = Registration()
+    context = {'registration_form':registration_form}
+    return render(request,'registration.html',context)
