@@ -1,4 +1,3 @@
-from typing import Hashable
 from django.db import models
 from django.db.models.fields import AutoField, CharField, DateField, EmailField
 

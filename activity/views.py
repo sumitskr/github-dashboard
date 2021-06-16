@@ -17,7 +17,10 @@ def registration(request):
             password = registration_form.cleaned_data['password']
             token = registration_form.cleaned_data['token']
             # print(name,username)
-            ins = Git_user(name=name,email=email,username=username,password=password,token=token,date=str(date.today()))
-            ins.save()
+            if not Git_user.objects.filter():
+                ins = Git_user(name=name,email=email,username=username,password=password,token=token,date=str(date.today()))
+                ins.save()
+            else:
+                return HttpResponse("user not  available")
     context = {'registration_form':registration_form}
     return render(request,'registration.html',context)
