@@ -7,5 +7,9 @@ def index(request):
 
 def registration(request):
     registration_form = Registration()
+    if request.method == "POST":
+        registration_form=Registration(request.POST)
+        if registration_form.is_valid():
+            name ="sumit"
     context = {'registration_form':registration_form}
     return render(request,'registration.html',context)

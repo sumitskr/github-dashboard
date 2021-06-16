@@ -5,6 +5,6 @@ from django.forms.widgets import PasswordInput
 
 class Registration(forms.Form):
     name = CharField(max_length=40,min_length=5)
-    email = EmailField(max_length=30)
+    email = CharField(max_length=30,required=True)
     password = CharField(max_length=30, widget=PasswordInput)
     token = CharField(max_length=40,min_length=40,required=True)

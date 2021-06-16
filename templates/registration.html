@@ -7,8 +7,11 @@
     <title>Register MF</title>
 </head>
 <body>
-    {{ registration_form }}
-    <button type="submit">Submit</button>
+    <form style="margin: 25px;">
+        {{ registration_form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+    
     
 </body>
 </html>
