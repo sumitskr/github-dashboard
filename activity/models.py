@@ -1,0 +1,12 @@
+from typing import Hashable
+from django.db import models
+from django.db.models.fields import AutoField, CharField, EmailField
+
+
+class Git_user(models.Model):
+    id = AutoField(primary_key=True)
+    name = CharField(max_length=40)
+    email = EmailField(max_length=30)
+    password = CharField(max_length=20)
+    token = CharField(max_length=40)
+
