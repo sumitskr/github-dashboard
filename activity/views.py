@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from .forms import Registration
+from .forms import Registration,Login
 from django.shortcuts import render
 from .models import Git_user
 from datetime import date
@@ -17,10 +17,27 @@ def registration(request):
             password = registration_form.cleaned_data['password']
             token = registration_form.cleaned_data['token']
             # print(name,username)
-            if not Git_user.objects.filter():
+            if not Git_user.objects.filter(username=username):
                 ins = Git_user(name=name,email=email,username=username,password=password,token=token,date=str(date.today()))
                 ins.save()
             else:
                 return HttpResponse("user not  available")
     context = {'registration_form':registration_form}
     return render(request,'registration.html',context)
+
+
+def login(request):
+    login_form = Login()
+    if request.method == 'POST':
+        login_form = Login(request.POST)
+        if login_form.is_valid():
+            username = login_form.cleaned_data['username']
+            password = login_form.cleaned_data['password']
+            # print(username,password)
+            # if not Git_user.objects.filter(username=username):
+            #     return HttpResponse("not registered")
+            # else:
+            #     return HttpResponse('logged in')
+    context = {'login_form':login_form}
+    return render(request,'login.html',context)
+
