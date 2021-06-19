@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity</title>
+</head>
+<body>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <div style="border: 25px;width: 80vh;height: 60vh;" id="chart_div"></div>
+      
+  <script>
+    google.charts.load('current', {packages: ['corechart', 'bar']});
+google.charts.setOnLoadCallback(drawMultSeries);
+function Data(){
+    // var l = [['2021-06-10', 8], ['2021-06-11', 4], ['2021-06-14', 2], ['2021-06-15', 17], ['2021-06-16', 9], ['2021-06-18', 1], ['2021-06-19', 0], ['2021-06-21', 1]];
+    var l = {{ data|safe }}
+    var data=[];
+    for(let i=0;i<l.length;i++)
+      data.push([new Date(l[i][0]),l[i][1]]);
+    return data;
+    }
+
+function drawMultSeries() {
+      var data = new google.visualization.DataTable();
+      data.addColumn('date', 'Time');
+      data.addColumn('number', 'Activity');
+
+      data.addRows(Data());
+
+      var options = {
+        title: 'Motivation and Energy Level Throughout the Day',
+        hAxis: {
+          title: 'Time',
+          viewWindow: {
+            min: new Date("2021, 06, 01"),
+            max: new Date("2021, 06, 30") 
+          }
+        },
+        vAxis: {
+          title: 'Rating (scale of 1-10)'
+        }
+      };
+
+      var chart = new google.visualization.ColumnChart(
+        document.getElementById('chart_div'));
+
+      chart.draw(data, options);
+    }
+  </script>
+    
+</body>
+</html>

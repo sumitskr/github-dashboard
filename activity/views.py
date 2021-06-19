@@ -41,3 +41,15 @@ def login(request):
     context = {'login_form':login_form}
     return render(request,'login.html',context)
 
+def activity(request):
+    data=[['2021-06-10', 8],
+       ['2021-06-11', 4],
+       ['2021-06-14', 2],
+       ['2021-06-15', 17],
+       ['2021-06-16', 9],
+       ['2021-06-18', 1],
+       ['2021-06-19', 0],
+       ['2021-06-21', 1]]
+    context ={'data':data}
+    return render(request,"activity.html",context)
+
