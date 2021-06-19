@@ -11,17 +11,17 @@
   <div style="border: 25px;width: 80vh;height: 60vh;" id="chart_div"></div>
       
   <script>
-    google.charts.load('current', {packages: ['corechart', 'bar']});
-google.charts.setOnLoadCallback(drawMultSeries);
+    
 function Data(){
     // var l = [['2021-06-10', 8], ['2021-06-11', 4], ['2021-06-14', 2], ['2021-06-15', 17], ['2021-06-16', 9], ['2021-06-18', 1], ['2021-06-19', 0], ['2021-06-21', 1]];
-    var l = {{ data|safe }}
-    var data=[];
+    var l = {{ data|safe }} ;
+    var d=[];
     for(let i=0;i<l.length;i++)
-      data.push([new Date(l[i][0]),l[i][1]]);
-    return data;
+      d.push([new Date(l[i][0]),l[i][1]]);
+    return d;
     }
-
+    google.charts.load('current', {packages: ['corechart', 'bar']});
+    google.charts.setOnLoadCallback(drawMultSeries);  
 function drawMultSeries() {
       var data = new google.visualization.DataTable();
       data.addColumn('date', 'Time');

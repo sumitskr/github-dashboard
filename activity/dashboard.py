@@ -59,18 +59,18 @@ class sumit_repl:
         filtered_dates = self.__df.loc[between_two_dates]
         convert_dict = {'date': str}
         filtered_dates = filtered_dates.astype(convert_dict)
-        self.__filtered_data = filtered_dates.to_numpy()
+        self.__filtered_data = filtered_dates.to_numpy().tolist()
     def get_filtered_data(self):
         return self.__filtered_data
         
         
-obj = sumit_repl()
-obj.set_token("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")
-obj.initiate()
-obj.repo_list()
-obj.activity_count()
-obj.filtered_data()
-obj.get_filtered_data()   
+# obj = sumit_repl()
+# obj.set_token("ds")
+# obj.initiate()
+# obj.repo_list()
+# obj.activity_count()
+# obj.filtered_data()
+# print(obj.get_filtered_data())
         
         
     

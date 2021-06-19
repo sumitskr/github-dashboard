@@ -3,6 +3,7 @@ from .forms import Registration,Login
 from django.shortcuts import render
 from .models import Git_user
 from datetime import date
+from .dashboard import sumit_repl
 def index(request):
     return HttpResponse("hello")
 
@@ -42,14 +43,24 @@ def login(request):
     return render(request,'login.html',context)
 
 def activity(request):
-    data=[['2021-06-10', 8],
-       ['2021-06-11', 4],
-       ['2021-06-14', 2],
-       ['2021-06-15', 17],
-       ['2021-06-16', 9],
-       ['2021-06-18', 1],
-       ['2021-06-19', 0],
-       ['2021-06-21', 1]]
+    obj = sumit_repl()
+    t=Git_user.objects.filter(username="sumitskr")[0]
+
+    obj.set_token(t.token)
+    obj.initiate()
+    obj.repo_list()
+    obj.activity_count()
+    obj.filtered_data()
+    # data=[['2021-06-10', 8],
+    #    ['2021-06-11', 4],
+    #    ['2021-06-14', 2],
+    #    ['2021-06-15', 17],
+    #    ['2021-06-16', 9],
+    #    ['2021-06-18', 1],
+    #    ['2021-06-19', 0],
+    #    ['2021-06-21', 1]]
+    data = obj.get_filtered_data()
+    print(data)
     context ={'data':data}
     return render(request,"activity.html",context)
 
