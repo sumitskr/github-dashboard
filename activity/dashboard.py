@@ -65,7 +65,7 @@ class sumit_repl:
         
         
 obj = sumit_repl()
-obj.set_token("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")
+obj.set_token("")
 obj.initiate()
 obj.repo_list()
 obj.activity_count()
