@@ -28,14 +28,24 @@ function drawMultSeries() {
       data.addColumn('number', 'Activity');
 
       data.addRows(Data());
+      var today = new Date();
+      var today1 = new Date()
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      var yyyy = today.getFullYear();
+      today = yyyy+ '-' + mm + '-' + dd;
+      var set_interval = {{ set_interval|safe }} ;
+      console.log(set_interval,"set_interval");
+      var mm2 = String(today1.getMonth()-set_interval).padStart(2,0);
+      last = yyyy+'-'+mm2+'-'+dd;
 
       var options = {
         title: 'Motivation and Energy Level Throughout the Day',
         hAxis: {
           title: 'Time',
           viewWindow: {
-            min: new Date("2021, 06, 01"),
-            max: new Date("2021, 06, 30") 
+            min: new Date(last),
+            max: new Date(today) 
           }
         },
         vAxis: {

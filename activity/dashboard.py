@@ -1,7 +1,6 @@
 import time
 import pandas as pd
 from datetime import datetime,timedelta
-import collections
 from github import Github
 import matplotlib.pyplot as plt
 class sumit_repl:
@@ -11,7 +10,7 @@ class sumit_repl:
         self.__repo_list=None
         self.__g=None
         self.__df=None
-        self.__filtered_data=None
+        self.__date=None
     def set_token(self,token):
         self.__token=token
     def get_token(self):
@@ -24,55 +23,57 @@ class sumit_repl:
 #         print(self.__repo_list)
     def initiate(self):
         self.__g = Github(self.__token)
+    def set_date(self,days):
+        self.__days=days
         
     def activity_count(self):
+        start_date = (datetime.today()-timedelta(days=self.__days))
+        end_date = datetime.today()
         t1=time.time()
+        self.__dataset={}
         for r in self.__repo_list:
             repo = self.__g.get_user().get_repo(r)
             cnt=0
-            for i in repo.get_events():
-                if i.actor.login == self.__g.get_user().login:
-                    date = i.created_at.strftime("%Y%m%d")
+#             print(repo.name)
+            for i in repo.get_commits(since=start_date,until=end_date):
+                if i.author.login == self.__g.get_user().login:
+                    datetimeobj=datetime.strptime(i.last_modified[5:16],"%d %b %Y")
+                    date=datetimeobj.strftime("%Y%m%d")
                     if date in self.__dataset:
                         self.__dataset[date] += 1
                     else:
                         self.__dataset[date]=1
-        t2=time.time()
-        data = self.__dataset
-        data_df = {'date':list(data.keys()),'commits':list(data.values())}
+        data_df = {'date':list(self.__dataset.keys()),'commits':list(self.__dataset.values())}
         df = pd.DataFrame(data_df,columns=['date','commits'])
         df['date']=pd.to_datetime(df['date'])
         df = df.sort_values(by="date")
-        self.__df = df
+        convert_dict = {'date': str}
+        filtered_dates = df.astype(convert_dict)
+        self.__df = filtered_dates.to_numpy().tolist()
+        t2=time.time()
         print(t2-t1)
+        
     def get_dataset(self):
         return self.__dataset
     def get_data(self):
         return self.__df
-    def filtered_data(self):
-        start_date = (datetime.today()-timedelta(days=30)).strftime("%Y-%m-%d")
-        end_date = datetime.today().strftime("%Y-%m-%d")
 
-        after_start_date = self.__df["date"] >= start_date
-        before_end_date = self.__df["date"] <= end_date
-        between_two_dates = after_start_date & before_end_date
-        filtered_dates = self.__df.loc[between_two_dates]
-        convert_dict = {'date': str}
-        filtered_dates = filtered_dates.astype(convert_dict)
-        self.__filtered_data = filtered_dates.to_numpy().tolist()
-    def get_filtered_data(self):
-        return self.__filtered_data
         
         
-
+    
+        
+        
+    
 # obj = sumit_repl()
-# obj.set_token("ds")
+# obj.set_token("")
 # obj.initiate()
 # obj.repo_list()
+# obj.set_date(60)
 # obj.activity_count()
-# obj.filtered_data()
-# print(obj.get_filtered_data())
-
+# obj.get_data()
+        
+        
+    
         
         
     
