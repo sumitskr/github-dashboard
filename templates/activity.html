@@ -12,52 +12,42 @@
       
   <script>
     
-function Data(){
-    // var l = [['2021-06-10', 8], ['2021-06-11', 4], ['2021-06-14', 2], ['2021-06-15', 17], ['2021-06-16', 9], ['2021-06-18', 1], ['2021-06-19', 0], ['2021-06-21', 1]];
-    var l = {{ data|safe }} ;
-    var d=[];
-    for(let i=0;i<l.length;i++)
-      d.push([new Date(l[i][0]),l[i][1]]);
-    return d;
-    }
-    google.charts.load('current', {packages: ['corechart', 'bar']});
-    google.charts.setOnLoadCallback(drawMultSeries);  
-function drawMultSeries() {
-      var data = new google.visualization.DataTable();
-      data.addColumn('date', 'Time');
-      data.addColumn('number', 'Activity');
+          function Data(){
+              var l = {{ data|safe }} ;
+              var d=[];
+              for(let i=0;i<l.length;i++)
+                d.push([new Date(l[i][0]),l[i][1]]);
+              return d;
+              }
+              google.charts.load('current', {packages: ['corechart', 'bar']});
+              google.charts.setOnLoadCallback(drawMultSeries);  
+          function drawMultSeries() {
+                var data = new google.visualization.DataTable();
+                data.addColumn('date', 'Time');
+                data.addColumn('number', 'Activity');
 
-      data.addRows(Data());
-      var today = new Date();
-      var today1 = new Date()
-      var dd = String(today.getDate()).padStart(2, '0');
-      var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-      var yyyy = today.getFullYear();
-      today = yyyy+ '-' + mm + '-' + dd;
-      var set_interval = {{ set_interval|safe }} ;
-      console.log(set_interval,"set_interval");
-      var mm2 = String(today1.getMonth()-set_interval).padStart(2,0);
-      last = yyyy+'-'+mm2+'-'+dd;
+                data.addRows(Data());
+                var date_range = {{ date_range|safe }}
 
-      var options = {
-        title: 'Motivation and Energy Level Throughout the Day',
-        hAxis: {
-          title: 'Time',
-          viewWindow: {
-            min: new Date(last),
-            max: new Date(today) 
-          }
-        },
-        vAxis: {
-          title: 'Rating (scale of 1-10)'
-        }
-      };
+                var options = {
+                  title: 'Motivation and Energy Level Throughout the Day',
+                  hAxis: {
+                    title: 'Time',
+                    viewWindow: {
+                      min: new Date(date_range["min"]),
+                      max: new Date(date_range["max"]) 
+                    }
+                  },
+                  vAxis: {
+                    title: 'Work Intensity'
+                  }
+                };
 
-      var chart = new google.visualization.ColumnChart(
-        document.getElementById('chart_div'));
+                var chart = new google.visualization.ColumnChart(
+                  document.getElementById('chart_div'));
 
-      chart.draw(data, options);
-    }
+                chart.draw(data, options);
+              }
   </script>
     
 </body>

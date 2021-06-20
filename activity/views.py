@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from .forms import Registration,Login
 from django.shortcuts import render
 from .models import Git_user
-from datetime import date
+from datetime import date,datetime,timedelta
 from .dashboard import sumit_repl
 def index(request):
     return render(request,"index.html")
@@ -38,14 +38,15 @@ def login(request):
 
 def activity(request):
     obj = sumit_repl()
+    set_interval = 60
     t=Git_user.objects.filter(username="sumitskr")[0]
-    set_interval=30
+    date_range ={'min':datetime.today().strftime("%Y,%m,%d"),"max":(datetime.today()-timedelta(days=set_interval)).strftime("%Y,%m,%d")}
     obj.set_token(t.token)
     obj.initiate()
     obj.repo_list()
     obj.set_date(set_interval)
     obj.activity_count()
     data = obj.get_data()
-    context ={'data':data,'set_interval':int(set_interval/30)}
+    context ={'data':data,'date_range':date_range}
     return render(request,"activity.html",context)
 
