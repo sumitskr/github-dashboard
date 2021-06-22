@@ -19,5 +19,8 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.index,name='index'),
-    path('registration',views.registration,name='registration')
+    path('registration',views.registration,name='registration'),
+    path('user_list/',views.user_list,name='user_list'),
+    path('user_detail/<str:username>',views.user_detail,name="user_detail"),
+    path('user_update/',views.user_update,name="user_update")
 ]
