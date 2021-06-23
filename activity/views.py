@@ -38,7 +38,7 @@ def user_update(request):
     serializer = Userinsertion(data=request.data)
     if serializer.is_valid(raise_exception=True):
         serializer.validated_data
-        serializer.save(date=datetime.now())
+        serializer.save(date=datetime.now()) #https://simpleisbetterthancomplex.com/tutorial/2019/04/07/how-to-save-extra-data-to-a-django-rest-framework-serializer.html
         return Response(serializer.data,status=status.HTTP_201_CREATED)
 
 
