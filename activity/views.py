@@ -3,21 +3,21 @@ from rest_framework import serializers
 from .forms import Registration
 from django.shortcuts import render
 from .models import Git_user
-from datetime import date
+from datetime import date, datetime
 from rest_framework.decorators import api_view
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializer import Userserializers,Userdetails,Userinsertion
 from activity import serializer
+from rest_framework import status
 
-
-@api_view(['GET','POST'])
+@api_view(['GET'])
 def index(request):
     api_urls={
         'users':'/users_list/',
         'user_detail':'/user_detail/<str:username>',
-        'user_update':'/user_update',
+        'user_update':'user_update/',
         
 
     }
@@ -36,9 +36,11 @@ def user_detail(request,username):
 @api_view(['POST'])
 def user_update(request):
     serializer = Userinsertion(data=request.data)
-    if serializer.is_valid():
-        print(serializer.data)
-    return Response(serializer.data)
+    if serializer.is_valid(raise_exception=True):
+        serializer.validated_data
+        serializer.save(date=datetime.now())
+        return Response(serializer.data,status=status.HTTP_201_CREATED)
+
 
 
 

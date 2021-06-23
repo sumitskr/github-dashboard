@@ -12,4 +12,4 @@ class Userdetails(serializers.ModelSerializer):
 class Userinsertion(serializers.ModelSerializer):
     class Meta:
         model = Git_user
-        fields = '__all__'
+        fields = ('name','username','email','password','token')
