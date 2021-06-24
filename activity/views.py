@@ -15,9 +15,9 @@ from rest_framework import status
 @api_view(['GET'])
 def index(request):
     api_urls={
-        'users':'/users_list/',
+        'users':'http://127.0.0.1:8000/user_list/' ,
         'user_detail':'/user_detail/<str:username>',
-        'user_update':'user_update/',
+        'user_update':'http://127.0.0.1:8000/user_update/',
         
 
     }
