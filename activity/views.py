@@ -2,13 +2,13 @@ from django.http import HttpResponse, response
 from rest_framework import serializers
 from .forms import Registration
 from django.shortcuts import render
-from .models import Git_user
+from .models import Git_user,Contact
 from datetime import date, datetime
 from rest_framework.decorators import api_view
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializer import Userserializers,Userdetails,Userinsertion
+from .serializer import Issueserializer, Userserializers,Userdetails,Userinsertion,Contactcreate
 from activity import serializer
 from rest_framework import status
 
@@ -18,6 +18,8 @@ def index(request):
         'users':'http://127.0.0.1:8000/user_list/' ,
         'user_detail':'/user_detail/<str:username>',
         'user_update':'http://127.0.0.1:8000/user_update/',
+        'issues':'http://127.0.0.1:8000/issues/',
+        'contact':'http://127.0.0.1:8000/contact/'   #issue = contact
         
 
     }
@@ -40,8 +42,19 @@ def user_update(request):
         serializer.validated_data
         serializer.save(date=datetime.now()) #https://simpleisbetterthancomplex.com/tutorial/2019/04/07/how-to-save-extra-data-to-a-django-rest-framework-serializer.html
         return Response(serializer.data,status=status.HTTP_201_CREATED)
+@api_view(['GET'])
+def issues(request):
+    data = Contact.objects.all()
+    serializer = Issueserializer(data,many=True)
+    return Response(serializer.data)
 
-
+@api_view(['POST'])
+def contact(request):
+    serializer = Contactcreate(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        serializer.validated_data
+        serializer.save(date=datetime.now())
+        return Response(serializer.data,status=status.HTTP_201_CREATED)
 
 
 

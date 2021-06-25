@@ -22,5 +22,7 @@ urlpatterns = [
     path('registration',views.registration,name='registration'),
     path('user_list/',views.user_list,name='user_list'),
     path('user_detail/<str:username>',views.user_detail,name="user_detail"),
-    path('user_update/',views.user_update,name="user_update")
+    path('user_update/',views.user_update,name="user_update"),
+    path('issues/',views.issues,name='issues'),
+    path('contact/',views.contact,name='contact'),
 ]
