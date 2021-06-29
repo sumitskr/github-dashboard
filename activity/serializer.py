@@ -8,7 +8,8 @@ class Userserializers(serializers.ModelSerializer):
 class Userdetails(serializers.ModelSerializer):
     class Meta:
         model = Git_user
-        fields = '__all__'
+        fields =  ('username','email','date')
+        # fields = "__all__"
 class Userinsertion(serializers.ModelSerializer):
     class Meta:
         model = Git_user

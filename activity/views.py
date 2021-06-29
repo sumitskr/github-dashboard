@@ -1,25 +1,28 @@
 from django.http import HttpResponse, response
-from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 from .forms import Registration
 from django.shortcuts import render
 from .models import Git_user,Contact
 from datetime import date, datetime
 from rest_framework.decorators import api_view
 from django.http import JsonResponse
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializer import Issueserializer, Userserializers,Userdetails,Userinsertion,Contactcreate
 from activity import serializer
 from rest_framework import status
+from .dashboard import sumit_repl
+import json
+from datetime import datetime,timedelta
 
 @api_view(['GET'])
 def index(request):
     api_urls={
         'users':'http://127.0.0.1:8000/user_list/' ,
-        'user_detail':'/user_detail/<str:username>',
-        'user_update':'http://127.0.0.1:8000/user_update/',
+        'user_detail':'http://127.0.0.1:8000/user_detail/<str:username>',
+        'user_insertion':'http://127.0.0.1:8000/user_insertion/',
         'issues':'http://127.0.0.1:8000/issues/',
-        'contact':'http://127.0.0.1:8000/contact/'   #issue = contact
+        'contact':'http://127.0.0.1:8000/contact/' ,  #issue = contact
+        'dataset':'http://127.0.0.1:8000/dataset/<str:username>',
         
 
     }
@@ -36,7 +39,7 @@ def user_detail(request,username):
     serializer = Userdetails(data,many=False)
     return Response(serializer.data)
 @api_view(['POST'])
-def user_update(request):
+def user_insertion(request):
     serializer = Userinsertion(data=request.data)
     if serializer.is_valid(raise_exception=True):
         serializer.validated_data
@@ -56,30 +59,36 @@ def contact(request):
         serializer.save(date=datetime.now())
         return Response(serializer.data,status=status.HTTP_201_CREATED)
 
+@api_view(['GET'])
+def dataset(request,username):
+    obj = sumit_repl()
+    set_interval = 60
+    try :
+        t=Git_user.objects.get(username=username)
+        print(t)
+    except Git_user.DoesNotExist:
+        t=None
+    if t!= None:
+        date_range ={'min':datetime.today().strftime("%Y,%m,%d"),"max":(datetime.today()-timedelta(days=set_interval)).strftime("%Y,%m,%d")}
+        obj.set_token(t.token)
+        obj.initiate()
+        obj.repo_list()
+        obj.set_date(set_interval)
+        obj.activity_count()
+        data = obj.get_data()
+        print("data",data)
+        jsonStr = json.dumps(data)
+        json_data = {'data':jsonStr}
+        var = status.HTTP_200_OK
+    else:
+        jsonStr = "Sorry No daata Found"
+        json_data = {'data':jsonStr}
+        var = status.HTTP_204_NO_CONTENT
+    return Response(json_data,status=var)
 
 
 
 
 
-def registration(request):
-    registration_form = Registration()
-    if request.method == "POST":
-        registration_form=Registration(request.POST)
-        if registration_form.is_valid():
-            name = registration_form.cleaned_data['name']
-            email = registration_form.cleaned_data['email']
-            username = registration_form.cleaned_data['username']
-            password = registration_form.cleaned_data['password']
-            token = registration_form.cleaned_data['token']
-            # print(name,username)
-            if not Git_user.objects.filter():
-                ins = Git_user(name=name,email=email,username=username,password=password,token=token,date=str(date.today()))
-                ins.save()
-            else:
-                return HttpResponse("user not  available")
-    context = {'registration_form':registration_form}
-    return render(request,'registration.html',context)
 
-# @api_view(["GET","POST"])
-# def apioverview(request):
 
