@@ -61,14 +61,14 @@ def contact(request):
 
 @api_view(['GET'])
 def dataset(request,username):
-    obj = sumit_repl()
-    set_interval = 60
     try :
         t=Git_user.objects.get(username=username)
         print(t)
     except Git_user.DoesNotExist:
         t=None
     if t!= None:
+        obj = sumit_repl()
+        set_interval = 60
         date_range ={'min':datetime.today().strftime("%Y,%m,%d"),"max":(datetime.today()-timedelta(days=set_interval)).strftime("%Y,%m,%d")}
         obj.set_token(t.token)
         obj.initiate()
