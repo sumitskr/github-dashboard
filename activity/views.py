@@ -17,12 +17,12 @@ from datetime import datetime,timedelta
 @api_view(['GET'])
 def index(request):
     api_urls={
-        'users':'http://127.0.0.1:8000/user_list/' ,
-        'user_detail':'http://127.0.0.1:8000/user_detail/<str:username>',
-        'user_insertion':'http://127.0.0.1:8000/user_insertion/',
-        'issues':'http://127.0.0.1:8000/issues/',
-        'contact':'http://127.0.0.1:8000/contact/' ,  #issue = contact
-        'dataset':'http://127.0.0.1:8000/dataset/<str:username>',
+        'users':'https://sumitapi2.herokuapp.com//user_list/' ,
+        'user_detail':'https://sumitapi2.herokuapp.com/user_detail/<str:username>',
+        'user_insertion':'https://sumitapi2.herokuapp.com/user_insertion/',
+        'issues':'https://sumitapi2.herokuapp.com/issues/',
+        'contact':'https://sumitapi2.herokuapp.com/contact/' ,  #issue = contact
+        'dataset':'https://sumitapi2.herokuapp.com/dataset/<str:username>',
         
 
     }
