@@ -17,7 +17,7 @@ from datetime import datetime,timedelta
 @api_view(['GET'])
 def index(request):
     api_urls={
-        'users':'https://sumitapi2.herokuapp.com//user_list/' ,
+        'users':'https://sumitapi2.herokuapp.com/user_list/' ,
         'user_detail':'https://sumitapi2.herokuapp.com/user_detail/<str:username>',
         'user_insertion':'https://sumitapi2.herokuapp.com/user_insertion/',
         'issues':'https://sumitapi2.herokuapp.com/issues/',
