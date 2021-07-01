@@ -1,0 +1,1 @@
+ heroku run -a "Appname" python manage.py migrate/migrations/createsuperuser

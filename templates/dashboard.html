@@ -12,12 +12,18 @@
 </html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> </script>
 <script>
+        var a;
         const req = new XMLHttpRequest();
         req.responseType = 'json';
-        req.open('GET', 'http://127.0.0.1:8000/user_list/');
+        // req.open('GET', 'https://sumitapi2.herokuapp.com/user_list/');
+        
+        req.open('GET', 'https://sumitapi2.herokuapp.com/dataset/sumitskr');
         req.onload = () => {
         console.log(req.response);
+        var arr = req.response;
+        a=arr;
         };
         
         req.send();
+
 </script>

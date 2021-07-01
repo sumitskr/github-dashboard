@@ -1,0 +1,9 @@
+Procfile
+requirements.tct
+
+git add
+commit
+push
+
+heroku run python manage.py migrate /createsuperuser/migrations
+
