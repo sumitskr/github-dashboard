@@ -102,6 +102,8 @@ def commits(request,token):
         jsonStr = json.dumps(data)
         json_data = {'data':jsonStr}
         var = status.HTTP_200_OK
+
+        # JSON.parse(d['data'])
         return Response(json_data,status=var)
 
 
