@@ -23,6 +23,7 @@ def index(request):
         'issues':'https://sumitapi2.herokuapp.com/issues/',
         'contact':'https://sumitapi2.herokuapp.com/contact/' ,  #issue = contact
         'dataset':'https://sumitapi2.herokuapp.com/dataset/<str:username>',
+        'dataset_mf':'https://sumitapi2.herokuapp.com/commits/<str:token>', 
         
 
     }
@@ -86,6 +87,22 @@ def dataset(request,username):
         var = status.HTTP_204_NO_CONTENT
     return Response(json_data,status=var)
 
+@api_view(['GET'])
+def commits(request,token):
+        obj = sumit_repl()
+        set_interval = 30
+        # date_range ={'min':datetime.today().strftime("%Y,%m,%d"),"max":(datetime.today()-timedelta(days=set_interval)).strftime("%Y,%m,%d")}
+        obj.set_token(token)
+        obj.initiate()
+        obj.repo_list()
+        obj.set_date(set_interval)
+        obj.activity_count()
+        data = obj.get_data()
+        print("data",data)
+        jsonStr = json.dumps(data)
+        json_data = {'data':jsonStr}
+        var = status.HTTP_200_OK
+        return Response(json_data,status=var)
 
 
 

@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.views.generic.base import View
 from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,4 +26,5 @@ urlpatterns = [
     path('issues/',views.issues,name='issues'),
     path('contact/',views.contact,name='contact'),
     path('dataset/<str:username>',views.dataset,name='dataset'),
+    path('commits/<str:token>',views.commits,name="commits"),
 ]
