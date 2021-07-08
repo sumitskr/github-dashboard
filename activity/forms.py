@@ -1,31 +1,23 @@
-from django.core.exceptions import ValidationError
-from django.db.models.fields import EmailField
-from django.forms import forms
-from django.forms.fields import CharField
-from django.forms.widgets import PasswordInput
-from .models import Git_user
+from django import forms
+from django.contrib.auth.models import User
+from django.db import models
+from django.db.models import fields
+from .models import Git
+from django.utils.translation import ugettext_lazy as _
+class UserFrom(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
 
-class Registration(forms.Form):
-    name = CharField(max_length=40,min_length=5,required=True)
-    email = CharField(max_length=30,required=True)
-    username = CharField(min_length=8,max_length=20,required=True)
-    password = CharField(max_length=30, widget=PasswordInput,required=True)
-    token = CharField(max_length=40,min_length=40,required=True)
+    class Meta():
+        model = User
+        fields = ('first_name','last_name','username','password','email',)
+        help_texts = {
+            'username':"",
 
-class Login(forms.Form):
-    username = CharField(min_length=8,max_length=20) 
-    password = CharField(max_length=30, widget=PasswordInput)
-    def clean(self):
-        cleaned_data = super().clean()
-        # print(cleaned_data)
-        username = cleaned_data.get("username")
-        password = cleaned_data.get("password")
-        obj = Git_user.objects.filter(username=username)[0]
-        if not Git_user.objects.filter(username=username):
-            raise ValidationError("You are not registered")
-        elif Git_user.objects.filter(username=username) and obj.password != password:
-            raise ValidationError("Incorect password")
-        return cleaned_data
-
-    
+            
+        }
+#form that connects the userform
+class Git(forms.ModelForm):
+    class Meta():
+        model = Git
+        fields = ('Personal_Access_Token','contact')
 
