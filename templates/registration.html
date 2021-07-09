@@ -14,14 +14,6 @@
             <form action=/registration method="POST" style="margin: 25px;">
                 {% csrf_token %}
                 {{ userform.as_p }}
-                    {% if messages %}
-                        <ul class="messages">
-                            {% for message in messages %}
-                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-        
                 {{ gitform.as_p }}
                 <button class="btn-primary" type="submit">Submit</button>
             </form> 

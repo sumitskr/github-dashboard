@@ -6,6 +6,8 @@ from .models import Git
 from django.utils.translation import ugettext_lazy as _
 class UserFrom(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
+    first_name = forms.CharField()
+    last_name = forms.CharField()
 
     class Meta():
         model = User
